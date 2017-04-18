@@ -2,7 +2,7 @@
 
 class DaySchedule:
 
-	def __init__(self):
+	def __init__(self, self.instance):
 		self.pickups = []
 		self.deliveries = []
 

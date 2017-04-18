@@ -10,7 +10,7 @@ class Schedule:
 		self.days = instance.days
 		self.daySchedules = {}
 		for day in range(1, self.days + 1):
-			self.daySchedules[day] = DaySchedule()
+			self.daySchedules[day] = DaySchedule(instance)
 
 	def addDeliveryOnDay(self, day, request):
 		self.daySchedules[day].addDelivery(request)
@@ -39,11 +39,11 @@ class Schedule:
 		for day, daySchedule in self.daySchedules.items():
 			for request in self.daySchedules[day].deliveries:
 				depot[request.toolID] -= request.amount
-				for toolID, tool in self.instance.tools.items():
-					if depot[toolID] < 0:
-						return False
 			for request in self.daySchedules[day].pickups:
 				depot[request.toolID] -= request.amount
+			for toolID, tool in self.instance.tools.items():
+				if depot[toolID] < 0:
+					return False
 		return True
 
 	def isValid(self):
@@ -116,9 +116,9 @@ class Schedule:
 		for day, daySchedule in self.daySchedules.items():
 			for request in self.daySchedules[day].deliveries:
 				depot[request.toolID] -= request.amount
-				for toolID, tool in self.instance.tools.items():
-					if depot[toolID] < minimum:
-						minimum = depot[toolID]
 			for request in self.daySchedules[day].pickups:
 				depot[request.toolID] -= request.amount
+			for toolID, tool in self.instance.tools.items():
+				if depot[toolID] < minimum:
+					minimum = depot[toolID]
 		return minimum

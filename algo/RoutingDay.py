@@ -4,7 +4,7 @@ from copy import copy
 
 class RoutingDay:
 
-	def __init__(self, instance):
+	def __init__(self, instance, depot):
 		self.instance = instance
 		self.trips = []
 		self.costs = 0
@@ -43,3 +43,9 @@ class RoutingDay:
 		for trip2 in self.trips:
 			if trip.equals(trip2):
 				return True
+
+# Check gegeven een depot aan het begin van de dag of de vereisten van de trips niet groter zijn dan het depot
+	def isValid(self):
+		for trip in trips:
+			
+
