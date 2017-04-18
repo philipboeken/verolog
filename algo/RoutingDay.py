@@ -4,7 +4,7 @@ from copy import copy
 
 class RoutingDay:
 
-	def __init__(self, instance, depot):
+	def __init__(self, instance):
 		self.instance = instance
 		self.trips = []
 		self.costs = 0
@@ -44,8 +44,39 @@ class RoutingDay:
 			if trip.equals(trip2):
 				return True
 
-# Check gegeven een depot aan het begin van de dag of de vereisten van de trips niet groter zijn dan het depot
-	def isValid(self):
-		for trip in trips:
-			
+	def changeInDepot(self):
+		change = {}
+		for id, amount in startDepot.items():
+            change[id] = 0
+		for id, amount in self.toolsNeeded().items():
+			change[id] -= amount
+		for id, amount in self.toolsRetrieved().items():
+			change[id] -= amount
 
+	def toolsNeeded(self):
+		toolsNeeded = {}
+		for id, tool in self.instance.tools.items():
+			toolsNeeded[id] = 0
+		for trip in trips:
+			for id, amount in trip.toolsNeeded().items():
+				toolsNeeded[id] += amount
+		return toolsNeeded
+
+	def toolsRetrieved(self):
+		toolsRetrieved = {}
+		for id, tool in self.instance.tools.items():
+			toolsRetrieved[id] = 0
+		for trip in trips:
+			for id, amount in trip.toolsRetrieved().items():
+				toolsRetrieved[id] += amount
+		return toolsRetrieved
+
+# Check gegeven een depot aan het begin van de dag of de vereisten van de trips niet groter zijn dan het depot
+	def isValid(self, startDepot):
+		for id, amount in self.toolsNeeded():
+			if startDepot[id] < amount:
+				return False
+		for trip in trips:
+			if !trip.isValid():
+				return False
+		return True

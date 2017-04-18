@@ -133,7 +133,30 @@ class Trip:
         for request in self.requests:
             if !isinstance(request, int):
                 toolsNeeded[request.toolID] += request.amount
+            else:
+            	for id, amount in toolsNeeded.items():
+        			if amount < 0:
+        				toolsNeeded[id] = 0
+        for id, amount in toolsNeeded.items():
+        	if amount < 0:
+        		toolsNeeded[id] = 0
         return toolsNeeded
+
+    def toolsRetrieved(self):
+    	toolsRetrieved = {}
+        for id, tool in self.instance.tools.items():
+            toolsRetrieved[id] = 0
+    	for request in self.requests:
+            if !isinstance(request, int):
+                toolsRetrieved[request.toolID] -= request.amount
+            else:
+            	for id, amount in toolsRetrieved.items():
+        			if amount < 0:
+        				toolsRetrieved[id] = 0
+        for id, amount in toolsRetrieved.items():
+        	if amount < 0:
+        		toolsRetrieved[id] = 0
+        return toolsRetrieved
 
     def invertRequests(self):
         return list(reversed(self.requests))

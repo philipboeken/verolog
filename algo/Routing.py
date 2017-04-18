@@ -3,7 +3,8 @@ from RoutingDay import RoutingDay
 
 class Routing:
 
-	def __init__(self):
+	def __init__(self, instance):
+		self.instance = instance
 		self.routingDays = {}
 
 	def addRoutingDay(self, day, routingDay):
@@ -20,3 +21,15 @@ class Routing:
 
 	def distance(self):
 		return sum([routingDay.distance() for day, routingDay in self.routingDays.items()])
+		
+	def isValid(self):
+		depot = {}
+		for id, tool in self.instance.tools.items():
+			depot[id] = 0
+		for day, routingDay in self.routingDays.items():
+			if !routingDay.isValid(depot):
+				return False
+			for id, change in routingDay.changeInDepot():
+				depot[id] += change
+		return True
+		
