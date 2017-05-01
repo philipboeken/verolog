@@ -18,20 +18,20 @@ class InitSchedule:
 		best = Schedule(self.instance)
 		while tresh > 0:
 			day = random.randint(1,self.instance.days)
-			while len(schedule.daySchedules[day].deliveries) is 0:
+			while len(schedule.scheduleDays[day].deliveries) is 0:
 				day = random.randint(1,self.instance.days)
-			request = schedule.daySchedules[day].deliveries[random.randint(0,len(schedule.daySchedules[day].deliveries)-1)]
+			request = schedule.scheduleDays[day].deliveries[random.randint(0,len(schedule.scheduleDays[day].deliveries)-1)]
 			offset = random.randint(request.firstDay,request.lastDay)
 			schedule.deleteDelivery(request)
 			schedule.addDeliveryOnDay(offset, request) 
 			if schedule.inv() < minimum and random.random() > tresh:
 				schedule.deleteDelivery(request)
 				schedule.addDeliveryOnDay(day, request) 
-			if schedule.inv() > minimum and schedule.isValidShort():
+			if schedule.inv() > minimum and schedule.isFeasible():
 				minimum = copy(schedule.inv())
 				best = copy(schedule)
-			if best.isValidShort() and minimum > 0:
+			if best.isFeasible() and minimum > 0:
 					tresh -= 0.00001
-			print(best.isValidShort())
+			print(best.isFeasible())
 			print(minimum)
 		return schedule

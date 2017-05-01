@@ -11,18 +11,3 @@ class Solver:
 		strategy = getattr(__import__(strategy, fromlist=[strategy]), strategy)
 		self.strategy = strategy(self.instance)
 		self.strategy.solution.writeSolution(solution_name)
-
-# alleen gemaakt om te testen of de afstandstabel wel klopt
-	def writeDistanceTable():
-		file = open('distance.csv','w')
-		head = ''
-		for i,arr in self.instance.distance.items():
-			if(not head):
-				head = ';'
-				for j,dist in arr.items():
-					head += str(j) + ';'
-				file.write(head + '\n')
-			s = str(i)
-			for j,dist in arr.items():
-				s += ';' + str(dist)
-			file.write(s + '\n')

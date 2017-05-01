@@ -10,7 +10,6 @@ class Trip:
     def __init__(self, instance, request=None):
         self.instance = instance
         self.requests = [0, 0]
-        self.distance = 0
         if request:
             self.addRequest(request)
 
@@ -18,23 +17,14 @@ class Trip:
         if len(self.requests) > 2:
             if toFront:
                 del self.requests[0]
-                first = 0 if isinstance(self.requests[0], int) else self.requests[
-                    0].locationID
-                self.distance -= self.instance.distance(0, first)
+                first = 0 if isinstance(self.requests[0], int) else self.requests[0].locationID
                 self.requests = [0, copy(request)] + self.requests
-                self.distance += self.instance.distance(
-                    0, request.locationID) + self.instance.distance(request.locationID, first)
             else:
                 del self.requests[-1]
-                last = 0 if isinstance(
-                    self.requests[-1], int) else self.requests[-1].locationID
-                self.distance -= self.instance.distance(last, 0)
+                last = 0 if isinstance(self.requests[-1], int) else self.requests[-1].locationID
                 self.requests += [copy(request), 0]
-                self.distance += self.instance.distance(
-                    last, request.locationID) + self.instance.distance(request.locationID, 0)
         else:
             self.requests = [0, request, 0]
-            self.distance = 2 * self.instance.distance(0, request.locationID)
 
     def deleteRequest(self, request, atEnds=False):
         for req in self.requests:
@@ -47,9 +37,6 @@ class Trip:
                 self.requests[index - 1], int) else self.requests[index - 1].locationID
             next = 0 if isinstance(
                 self.requests[index + 1], int) else self.requests[index + 1].locationID
-            self.distance -= self.instance.distance(prev, request.locationID)
-            self.distance -= self.instance.distance(request.locationID, next)
-            self.distance += self.instance.distance(prev, next)
             del self.requests[index]
 
     def contains(self, request, atEnds=False):
@@ -63,11 +50,22 @@ class Trip:
         return False
 
     def addTrip(self, trip, reverse=False):
-        requestList = list(reversed(trip.requests)
-                           ) if reverse else trip.requests
+        requestList = list(reversed(trip.requests)) if reverse else trip.requests
         for request in requestList:
             if not isinstance(request, int):
                 self.addRequest(request)
+
+    def splitTrip(self):
+        trips = []
+        current = Trip(self.instance)
+        for request in self.requests:
+            if isinstance(request, int):
+                if len(current.requests) > 2:
+                    trips.append(copy(current))
+                current = Trip(self.instance)
+            else:
+                current.addRequest(request)
+        return trips
 
     def concatenateTrips(self, trip1, trip2, pair):
         if len(trip1.requests) is 3:
@@ -95,9 +93,20 @@ class Trip:
             else:
                 self.addTrip(trip2, True)
 
-    def isValid(self):
-        if self.distance > self.instance.max_trip_distance:
-            return False
+    def distanceError(self, day, tripnr):
+        return [] if self.distance() <= self.instance.max_trip_distance else ['Max. trip distance violated on day ' + str(day) + ' for vehicle ' + str(tripnr)]
+
+    def hasErrors(self, day, tripnr):
+        errorLog = []
+        errorLog += self.distanceError(day, tripnr)
+        for i in range(len(self.splitTrip())):
+            errorLog += self.splitTrip()[i].capacityError(day, tripnr, i+1)
+        return errorLog
+
+    def capacityError(self, day, tripnr, subtripnr):
+        errorLog = []
+        if self.requests[0] is not 0 or self.requests[-1] is not 0:
+            errorLog += ['Vehicle ' + str(tripnr) + ' does not start or end at depot on day ' + str(day)]
         capacity = range(0, self.instance.capacity + 1)
         tools = {}
         for id, tool in self.instance.tools.items():
@@ -122,54 +131,44 @@ class Trip:
                 count += ts[j]
             sum += [count]
             count = 0
-        if max(sum) > self.instance.capacity:
-            return False
-        return True
+        return errorLog + ['Capacity of vehicle ' + str(tripnr) + ' exceeded on day ' + str(day) + ' in subtrip ' + str(subtripnr)] if max(sum) > self.instance.capacity else errorLog
 
-    def toolsNeeded(self):
-        toolsNeeded = {}
+    def totalToolsNeeded(self):
+        inventory = {}
+        tools = {}
         for id, tool in self.instance.tools.items():
-            toolsNeeded[id] = 0
+            tools[id] = [0]
+            inventory[id] = 0
         for request in self.requests:
-            if !isinstance(request, int):
-                toolsNeeded[request.toolID] += request.amount
+            if not isinstance(request, int):
+                for id, ts in tools.items():
+                    if id is request.toolID:
+                        tools[id] += [tools[id][-1] - request.amount]
+                    else:
+                        tools[id] += [tools[id][-1]]
             else:
-            	for id, amount in toolsNeeded.items():
-        			if amount < 0:
-        				toolsNeeded[id] = 0
-        for id, amount in toolsNeeded.items():
-        	if amount < 0:
-        		toolsNeeded[id] = 0
-        return toolsNeeded
+                for id, ts in tools.items():
+                    tools[id] += [tools[id][-1]]   
+        for id, ts in tools.items():
+            m = min(ts)
+            inventory[id] = abs(m)
+        return inventory 
 
-    def toolsRetrieved(self):
-    	toolsRetrieved = {}
-        for id, tool in self.instance.tools.items():
-            toolsRetrieved[id] = 0
-    	for request in self.requests:
-            if !isinstance(request, int):
-                toolsRetrieved[request.toolID] -= request.amount
-            else:
-            	for id, amount in toolsRetrieved.items():
-        			if amount < 0:
-        				toolsRetrieved[id] = 0
-        for id, amount in toolsRetrieved.items():
-        	if amount < 0:
-        		toolsRetrieved[id] = 0
-        return toolsRetrieved
 
     def invertRequests(self):
         return list(reversed(self.requests))
 
-    def dist(self):
+    def distance(self):
         prev = 0
-        dist = 0
+        distance = 0
         for request in self.requests:
             if not isinstance(request, int):
-                dist += self.instance.distance(prev, request.locationID)
+                distance += self.instance.distance(prev, request.locationID)
                 prev = request.locationID
-        dist += self.instance.distance(prev, 0)
-        return dist
+            else:
+                distance += self.instance.distance(prev, 0)
+                prev = 0
+        return distance
 
     def equals(self, trip):
         ans = True
@@ -178,3 +177,19 @@ class Trip:
                 if not self.contains(request):
                     ans = False
         return ans
+
+    def returnDeliveries(self):
+        deliveries = []
+        for request in self.requests:
+            if not isinstance(request, int):
+                if request.id > 0:
+                    deliveries.append(request)
+        return deliveries
+
+    def returnPickups(self):
+        pickups = []
+        for request in self.requests:
+            if not isinstance(request, int):
+                if request.id < 0:
+                    pickups.append(copy(request))
+        return pickups

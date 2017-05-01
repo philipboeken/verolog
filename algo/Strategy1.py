@@ -11,12 +11,12 @@ class Strategy1:
 	def __init__(self, instance):
 		self.instance = instance
 		self.solutionRouting = self.algorithm()
-		self.solution = Solution(self.instance, self.solutionRouting)
+		self.solution = Solution(self.instance, routing=self.solutionRouting)
 
 	def algorithm(self):
 		routing = Routing()
 		self.initSchedule = InitSchedule(self.instance)
-		for day, daySchedule in self.initSchedule.schedule.daySchedules.items():
-			cw = ClarkeWright(self.instance, daySchedule)
+		for day, scheduleDay in self.initSchedule.schedule.scheduleDays.items():
+			cw = ClarkeWright(self.instance, scheduleDay)
 			routing.addRoutingDay(day, cw.routingDay)
 		return routing

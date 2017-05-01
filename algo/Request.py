@@ -10,11 +10,11 @@ class Request:
 		self.daysStay = daysStay
 		self.toolID = toolID
 		self.amount = amount
-		
-	def toString(self):
+
+	def __str__(self):
 		s = ''
 		for key, val in self.__dict__.items():
-			s += str(key) + ': ' + str(val) + ' '
+			s += str(key) + ': ' + str(val) + '\t'
 		return s
 
 	def equals(self, request):

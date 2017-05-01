@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 from Trip import Trip
 from copy import copy
+from pprint import pprint
 
 class RoutingDay:
 
@@ -26,57 +27,39 @@ class RoutingDay:
 				return trip
 		return False
 
-	# Hierin zit een schedulingprobleem: meerdere korte trips, hoe deze onderverdelen 
-	# onder vehicles om zo weinig mogelijk vehicles te gebruiken
-	def mergeTrips(self): 
-		for trip1 in self.trips:
-			for trip2 in self.trips:
-				if trip1.distance + trip2.distance <= self.instance.max_trip_distance:
-					trip1.addTrip(trip2)
-					self.deleteTrip(trip2)
-		self.numberOfVehicles = len(self.trips)
-
 	def distance(self):
-		return sum([trip.distance for trip in self.trips])
+		return sum([trip.distance() for trip in self.trips])
 
 	def contains(self, trip):
 		for trip2 in self.trips:
 			if trip.equals(trip2):
 				return True
 
-	def changeInDepot(self):
-		change = {}
-		for id, amount in startDepot.items():
-            change[id] = 0
-		for id, amount in self.toolsNeeded().items():
-			change[id] -= amount
-		for id, amount in self.toolsRetrieved().items():
-			change[id] -= amount
-
 	def toolsNeeded(self):
-		toolsNeeded = {}
+		tools = {}
 		for id, tool in self.instance.tools.items():
-			toolsNeeded[id] = 0
-		for trip in trips:
-			for id, amount in trip.toolsNeeded().items():
-				toolsNeeded[id] += amount
-		return toolsNeeded
+			tools[id] = 0
+		for trip in self.trips:
+			for id, amount in trip.totalToolsNeeded().items():
+				tools[id] += amount
+		return tools
 
-	def toolsRetrieved(self):
-		toolsRetrieved = {}
-		for id, tool in self.instance.tools.items():
-			toolsRetrieved[id] = 0
-		for trip in trips:
-			for id, amount in trip.toolsRetrieved().items():
-				toolsRetrieved[id] += amount
-		return toolsRetrieved
+	def hasErrors(self, startDepot, day):
+		errorLog = []
+		for id, amount in self.toolsNeeded().items():
+			errorLog += ['Negative depot for tool ' + str(id) + ' on day ' + str(day)] if startDepot[id] - amount < 0 else []
+		for i in range(len(self.trips)):
+			errorLog += self.trips[i].hasErrors(day, i+1)
+		return errorLog
 
-# Check gegeven een depot aan het begin van de dag of de vereisten van de trips niet groter zijn dan het depot
-	def isValid(self, startDepot):
-		for id, amount in self.toolsNeeded():
-			if startDepot[id] < amount:
-				return False
-		for trip in trips:
-			if !trip.isValid():
-				return False
-		return True
+	def returnDeliveries(self):
+		deliveries = []
+		for trip in self.trips:
+			deliveries += trip.returnDeliveries()
+		return deliveries
+
+	def returnPickups(self):
+		pickups = []
+		for trip in self.trips:
+			pickups += trip.returnPickups()
+		return pickups
