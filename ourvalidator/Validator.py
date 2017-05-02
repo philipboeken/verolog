@@ -12,7 +12,7 @@ if __name__ == "__main__":
 
 	instance = Instance(args.instance)
 
-	solution = Solution(instance, txtFile=args.solution)
+	solution = Solution(instance, args.solution)
 
 	errors = solution.hasErrors()
 

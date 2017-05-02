@@ -1,7 +1,7 @@
 #! /usr/bin/env python
+
 from RoutingDay import RoutingDay
 from copy import copy
-from pprint import pprint
 
 class Routing:
 
@@ -44,11 +44,8 @@ class Routing:
 		return self.vehicleCost() + self.vehicleDayCost() + self.distanceCost() + self.toolCost()
 
 	def toolCount(self):
-		depot = {}
-		toolCount = {}
-		for id, tool in self.instance.tools.items():
-			depot[id] = tool.available
-			toolCount[id] = 0
+		depot = self.instance.startDepot
+		toolCount = dict.fromkeys(depot, 0)
 		for day, routingDay in self.routingDays.items():
 			needed = routingDay.toolsNeeded()
 			for id, tools in self.instance.tools.items():

@@ -1,7 +1,6 @@
 #! /usr/bin/env python
+
 import json
-from collections import OrderedDict
-from pprint import pprint
 from copy import copy
 
 
@@ -15,29 +14,6 @@ class Trip:
 
     def addRequest(self, request, toFront=False):
         self.requests.append(request)
-
-    def deleteRequest(self, request, atEnds=False):
-        for req in self.requests:
-            if req is not 0:
-                if req.equals(request):
-                    r = req
-        if r:
-            index = self.requests.index(r)
-            prev = 0 if isinstance(
-                self.requests[index - 1], int) else self.requests[index - 1].locationID
-            next = 0 if isinstance(
-                self.requests[index + 1], int) else self.requests[index + 1].locationID
-            del self.requests[index]
-
-    def contains(self, request, atEnds=False):
-        if atEnds:
-            if request.equals(self.requests[1]) or request.equals(self.requests[-2]):
-                return True
-        else:
-            for r in self.requests:
-                if request.equals(r):
-                    return True
-        return False
 
     def addTrip(self, trip, reverse=False):
         requestList = list(reversed(trip.requests)) if reverse else trip.requests
@@ -59,32 +35,6 @@ class Trip:
             else:
                 current.addRequest(request)
         return trips
-
-    def concatenateTrips(self, trip1, trip2, pair):
-        if len(trip1.requests) is 3:
-            self.addTrip(trip1)
-            if len(trip2.requests) is 3:
-                self.addTrip(trip2)
-            elif trip2.requests[1].equals(pair[1]):
-                self.addTrip(trip2)
-            else:
-                self.addTrip(trip2, True)
-        elif trip1.requests[1].equals(pair[0]):
-            self.addTrip(trip1, True)
-            if len(trip2.requests) is 3:
-                self.addTrip(trip2)
-            elif trip2.requests[1].equals(pair[1]):
-                self.addTrip(trip2)
-            else:
-                self.addTrip(trip2, True)
-        else:
-            self.addTrip(trip1)
-            if len(trip2.requests) is 3:
-                self.addTrip(trip2)
-            elif trip2.requests[1].equals(pair[1]):
-                self.addTrip(trip2)
-            else:
-                self.addTrip(trip2, True)
 
     def distanceError(self, day, tripnr):
         return [] if self.distance() <= self.instance.max_trip_distance else ['Max. trip distance violated on day ' + str(day) + ' for vehicle ' + str(tripnr)]
@@ -150,10 +100,6 @@ class Trip:
             inventory[id] = abs(m)
         return inventory 
 
-
-    def invertRequests(self):
-        return list(reversed(self.requests))
-
     def distance(self):
         prev = 0
         distance = 0
@@ -165,14 +111,6 @@ class Trip:
                 distance += self.instance.distance(prev, 0)
                 prev = 0
         return distance
-
-    def equals(self, trip):
-        ans = True
-        for request in trip.requests:
-            if not isinstance(request, int):
-                if not self.contains(request):
-                    ans = False
-        return ans
 
     def returnDeliveries(self):
         deliveries = []

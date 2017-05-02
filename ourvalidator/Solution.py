@@ -1,4 +1,5 @@
-from pprint import pprint
+#! /usr/bin/env python
+
 from Routing import Routing
 from RoutingDay import RoutingDay
 from Schedule import Schedule
@@ -7,16 +8,12 @@ from Trip import Trip
 from copy import copy
 
 class Solution:
-	def __init__(self, instance, routing=None, txtFile=None):
+	def __init__(self, instance, txtFile):
 		self.instance = instance
-		if routing:
-			self.parseFromRouting(routing)
-			self.writeToTxt()
-		if txtFile:
-			self.parseFromTxt(txtFile)
-			self.writeRouting()
-			self.calculateInfo()
-			self.writeSchedule()
+		self.parseFromTxt(txtFile)
+		self.writeRouting()
+		self.calculateInfo()
+		self.writeSchedule()
 
 	def parseFromTxt(self, txtFile):
 		array_vars = ['dataset', 'name']
@@ -81,45 +78,7 @@ class Solution:
 					if id < 0:
 						self.schedule.addPickupOnDay(day, self.instance.requests[-id])
 					elif id > 0:
-						self.schedule.addDeliveryOnDay(day, self.instance.requests[id], planPickup=False)
-
-	def parseFromRouting(self, routing):	
-		self.dataset = self.instance.dataset
-		self.name = self.instance.name
-		self.max_number_of_vehicles = routing.maxNumberOfVehicles()
-		self.number_of_vehicle_days = routing.numberOfVehicleDays()
-		self.tool_use = 0
-		self.distance = routing.distance()
-		self.cost = routing.cost()
-		self.days = {}
-		self.routing = routing
-		for day, routingDay in routing.routingDays.items():
-			tripOutputs = []
-			tripOutput = []
-			for trip in routingDay.trips:
-				if len(trip.requests) > 2:
-					for request in trip.requests:
-						tripOutput += [0 if isinstance(request, int) else request.id]
-				tripOutputs.append(tripOutput)
-			self.days[day] = tripOutputs
-
-	def writeToTxt(self, solution_name = "testsolution.txt"):
-		file = open(solution_name, 'w')
-		file.write("DATASET = " + self.dataset + "\n")
-		file.write("NAME = " + self.name + "\n\n")
-		file.write("MAX_NUMBER_OF_VEHICLES = " + str(self.max_number_of_vehicles) + "\n")
-		file.write("NUMBER_OF_VEHICLE_DAYS = " + str(self.number_of_vehicle_days) + "\n")
-		file.write("TOOL_USE = " + str(self.tool_count) + "\n")
-		file.write("DISTANCE = " + str(self.distance) + "\n")
-		file.write("COST = " + str(self.cost) + "\n\n")
-		for day, trips in self.days.items():
-			file.write("DAY = " + str(day) + "\n")
-			vehicleID = 1
-			for trip in trips:
-				file.write(str(vehicleID) + '\tR\t' + '\t'.join(str(id) for id in trip) + '\n')
-				vehicleID += 1
-			file.write('\n')
-		file.close()
+						self.schedule.addDeliveryOnDay(day, self.instance.requests[id])
 
 	def hasErrors(self):
 		return self.schedule.hasErrors() + self.routing.hasErrors()
