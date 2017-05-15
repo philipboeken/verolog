@@ -1,7 +1,5 @@
 #! /usr/bin/env python
 from RoutingDay import RoutingDay
-from copy import copy
-from pprint import pprint
 
 class Routing:
 
@@ -40,9 +38,6 @@ class Routing:
 			cost += tool.cost * toolCount[id]
 		return cost
 
-	def cost(self):
-		return self.vehicleCost() + self.vehicleDayCost() + self.distanceCost() + self.toolCost()
-
 	def toolCount(self):
 		depot = {}
 		toolCount = {}
@@ -60,16 +55,20 @@ class Routing:
 				depot[request.toolID] -= request.amount	
 		return toolCount
 
-	def hasErrors(self):
+	def cost(self):
+		return self.vehicleCost() + self.vehicleDayCost() + self.distanceCost() + self.toolCost()
+
+	def isValid(self):
 		depot = {}
-		errorLog = []
 		for id, tool in self.instance.tools.items():
 			depot[id] = tool.available
 		for day, routingDay in self.routingDays.items():
-			errorLog += routingDay.hasErrors(depot, day)
+			inventory = routingDay.isValid(depot)
 			for request in self.routingDays[day].returnDeliveries():
 				depot[request.toolID] -= request.amount
 			for request in self.routingDays[day].returnPickups():
-				depot[request.toolID] -= request.amount		
-		return errorLog
+				depot[request.toolID] -= request.amount	
+			if not inventory:
+				return False	
+		return True
 	

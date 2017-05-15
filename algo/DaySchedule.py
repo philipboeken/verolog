@@ -1,19 +1,12 @@
 #! /usr/bin/env python
 
-class ScheduleDay:
+class DaySchedule:
 
-	def __init__(self):
+	def __init__(self, instance):
+		self.instance = instance
 		self.pickups = []
 		self.deliveries = []
-
-	def __str__(self):
-		s = 'Deliveries: \n'
-		for delivery in self.deliveries:
-			s += str(delivery) + '\n'
-		s += 'Pickups: \n'
-		for pickup in self.pickups:
-			s += str(pickup) + '\n'
-		return s
+		self.inventory = {}
 
 	def addPickup(self, request):
 		request.id *= -1

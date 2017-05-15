@@ -11,7 +11,6 @@ class Instance:
 		self.remDistanceTable()
 		self.convertRequests()
 		self.convertTools()
-		self.startDepot()
 
 	def parseInput(self, instance_path):
 		array_vars = ['tools', 'coordinates', 'requests']
@@ -51,7 +50,3 @@ class Instance:
 		for id,tool in self.tools.items():
 			self.tools[id] = Tool(id, tool[0], tool[1], tool[2])
 
-	def startDepot(self):
-		self.startDepot = {}
-		for id, tool in self.tools.items():
-			self.startDepot[id] = tool.available
