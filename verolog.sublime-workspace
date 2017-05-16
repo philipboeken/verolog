@@ -252,44 +252,37 @@
 	"buffers":
 	[
 		{
+			"file": "algo/Solver.py",
+			"settings":
+			{
+				"buffer_size": 780,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "algo/Tool.py",
+			"settings":
+			{
+				"buffer_size": 188,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "algo/Trip.py",
+			"settings":
+			{
+				"buffer_size": 6023,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
 			"file": "algo/TwoOpt.py",
 			"settings":
 			{
-				"buffer_size": 1350,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "algo/InitSchedule.py",
-			"settings":
-			{
-				"buffer_size": 1161,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "algo/Routing.py",
-			"settings":
-			{
-				"buffer_size": 2343,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "algo/RoutingDay.py",
-			"settings":
-			{
-				"buffer_size": 1775,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "algo/Strategy1.py",
-			"settings":
-			{
-				"buffer_size": 798,
+				"buffer_size": 1208,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -298,16 +291,88 @@
 			"file": "algo/ClarkeWright.py",
 			"settings":
 			{
-				"buffer_size": 3501,
+				"buffer_size": 3428,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "report/report.tex",
+			"file": "algo/ScheduleMaker.py",
 			"settings":
 			{
-				"buffer_size": 15822,
+				"buffer_size": 1117,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "algo/Instance.py",
+			"settings":
+			{
+				"buffer_size": 1600,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "Searching 16 files for \"depot\" (case sensitive)\n\nC:\\Users\\Philip\\Documents\\School\\3BA\\Combinatorische_Optimalisatie\\verolog\\algo\\Routing.py:\n   39  \n   40  \tdef toolCount(self):\n   41: \t\tdepot = {}\n   42  \t\ttoolCount = {}\n   43  \t\tfor id, tool in self.instance.tools.items():\n   44: \t\t\tdepot[id] = tool.available\n   45  \t\t\ttoolCount[id] = 0\n   46  \t\tfor day, routingDay in self.routingDays.items():\n   47  \t\t\tneeded = routingDay.toolsNeeded()\n   48  \t\t\tfor id, tools in self.instance.tools.items():\n   49: \t\t\t\tif self.instance.tools[id].available - (depot[id] - needed[id]) > toolCount[id]:\n   50: \t\t\t\t\ttoolCount[id] = self.instance.tools[id].available - (depot[id] - needed[id])\n   51  \t\t\tfor request in self.routingDays[day].returnDeliveries():\n   52: \t\t\t\tdepot[request.toolID] -= request.amount\n   53  \t\t\tfor request in self.routingDays[day].returnPickups():\n   54: \t\t\t\tdepot[request.toolID] -= request.amount\t\n   55  \t\treturn toolCount\n   56  \n   ..\n   59  \n   60  \tdef isValid(self):\n   61: \t\tdepot = {}\n   62  \t\tfor id, tool in self.instance.tools.items():\n   63: \t\t\tdepot[id] = tool.available\n   64  \t\tfor day, routingDay in self.routingDays.items():\n   65: \t\t\tinventory = routingDay.isValid(depot)\n   66  \t\t\tfor request in self.routingDays[day].returnDeliveries():\n   67: \t\t\t\tdepot[request.toolID] -= request.amount\n   68  \t\t\tfor request in self.routingDays[day].returnPickups():\n   69: \t\t\t\tdepot[request.toolID] -= request.amount\t\n   70  \t\t\tif not inventory:\n   71  \t\t\t\treturn False\t\n\nC:\\Users\\Philip\\Documents\\School\\3BA\\Combinatorische_Optimalisatie\\verolog\\algo\\Schedule.py:\n   24  \n   25  \tdef inventory(self):\n   26: \t\tdepot = {}\n   27  \t\tminimum=100\n   28  \t\trequests = self.instance.requests\n   29  \t\tfor toolID, tool in self.instance.tools.items():\n   30: \t\t\tdepot[toolID] = tool.available\n   31  \t\tfor day, scheduleDay in self.scheduleDays.items():\n   32  \t\t\tfor request in self.scheduleDays[day].deliveries:\n   33: \t\t\t\tdepot[request.toolID] -= request.amount\n   34  \t\t\tfor request in self.scheduleDays[day].pickups:\n   35: \t\t\t\tdepot[request.toolID] -= request.amount\t\n   36  \t\t\tfor toolID, tool in self.instance.tools.items():\n   37: \t\t\t\tif depot[toolID] < minimum:\n   38: \t\t\t\t\tminimum = depot[toolID]\n   39  \t\treturn minimum\n   40  \n   41  \tdef makeInventory(self):\n   42: \t\tdepot = {}\n   43  \t\trequests = self.instance.requests\n   44  \t\tfor toolID, tool in self.instance.tools.items():\n   45: \t\t\tdepot[toolID] = tool.available\n   46  \t\tfor day, scheduleDay in self.scheduleDays.items():\n   47  \t\t\tfor request in self.scheduleDays[day].deliveries:\n   48: \t\t\t\tdepot[request.toolID] -= request.amount\n   49  \t\t\tfor toolID, tool in self.instance.tools.items():\n   50: \t\t\t\tscheduleDay.inventory[toolID] = depot[toolID]\n   51  \t\t\tfor request in self.scheduleDays[day].pickups:\n   52: \t\t\t\tdepot[request.toolID] -= request.amount\t\n\n22 matches across 2 files\n\n\nSearching 16 files for \"depot\" (case sensitive)\n\nC:\\Users\\Philip\\Documents\\School\\3BA\\Combinatorische_Optimalisatie\\verolog\\algo\\Routing.py:\n   39  \n   40  \tdef toolCount(self):\n   41: \t\tdepot = {}\n   42  \t\ttoolCount = {}\n   43  \t\tfor id, tool in self.instance.tools.items():\n   44: \t\t\tdepot[id] = tool.available\n   45  \t\t\ttoolCount[id] = 0\n   46  \t\tfor day, routingDay in self.routingDays.items():\n   47  \t\t\tneeded = routingDay.toolsNeeded()\n   48  \t\t\tfor id, tools in self.instance.tools.items():\n   49: \t\t\t\tif self.instance.tools[id].available - (depot[id] - needed[id]) > toolCount[id]:\n   50: \t\t\t\t\ttoolCount[id] = self.instance.tools[id].available - (depot[id] - needed[id])\n   51  \t\t\tfor request in self.routingDays[day].returnDeliveries():\n   52: \t\t\t\tdepot[request.toolID] -= request.amount\n   53  \t\t\tfor request in self.routingDays[day].returnPickups():\n   54: \t\t\t\tdepot[request.toolID] -= request.amount\t\n   55  \t\treturn toolCount\n   56  \n   ..\n   59  \n   60  \tdef isValid(self):\n   61: \t\tdepot = self.instance.startDepot\n   62  \t\tfor day, routingDay in self.routingDays.items():\n   63: \t\t\tinventory = routingDay.isValid(depot)\n   64  \t\t\tfor request in self.routingDays[day].returnDeliveries():\n   65: \t\t\t\tdepot[request.toolID] -= request.amount\n   66  \t\t\tfor request in self.routingDays[day].returnPickups():\n   67: \t\t\t\tdepot[request.toolID] -= request.amount\t\n   68  \t\t\tif not inventory:\n   69  \t\t\t\treturn False\t\n\nC:\\Users\\Philip\\Documents\\School\\3BA\\Combinatorische_Optimalisatie\\verolog\\algo\\Schedule.py:\n   24  \n   25  \tdef inventory(self):\n   26: \t\tdepot = {}\n   27  \t\tminimum=100\n   28  \t\trequests = self.instance.requests\n   29  \t\tfor toolID, tool in self.instance.tools.items():\n   30: \t\t\tdepot[toolID] = tool.available\n   31  \t\tfor day, scheduleDay in self.scheduleDays.items():\n   32  \t\t\tfor request in self.scheduleDays[day].deliveries:\n   33: \t\t\t\tdepot[request.toolID] -= request.amount\n   34  \t\t\tfor request in self.scheduleDays[day].pickups:\n   35: \t\t\t\tdepot[request.toolID] -= request.amount\t\n   36  \t\t\tfor toolID, tool in self.instance.tools.items():\n   37: \t\t\t\tif depot[toolID] < minimum:\n   38: \t\t\t\t\tminimum = depot[toolID]\n   39  \t\treturn minimum\n   40  \n   41  \tdef makeInventory(self):\n   42: \t\tdepot = {}\n   43  \t\trequests = self.instance.requests\n   44  \t\tfor toolID, tool in self.instance.tools.items():\n   45: \t\t\tdepot[toolID] = tool.available\n   46  \t\tfor day, scheduleDay in self.scheduleDays.items():\n   47  \t\t\tfor request in self.scheduleDays[day].deliveries:\n   48: \t\t\t\tdepot[request.toolID] -= request.amount\n   49  \t\t\tfor toolID, tool in self.instance.tools.items():\n   50: \t\t\t\tscheduleDay.inventory[toolID] = depot[toolID]\n   51  \t\t\tfor request in self.scheduleDays[day].pickups:\n   52: \t\t\t\tdepot[request.toolID] -= request.amount\t\n\n21 matches across 2 files\n",
+			"settings":
+			{
+				"buffer_size": 5675,
+				"line_ending": "Windows",
+				"name": "Find Results",
+				"scratch": true
+			}
+		},
+		{
+			"file": "algo/Request.py",
+			"settings":
+			{
+				"buffer_size": 409,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "algo/Routing.py",
+			"settings":
+			{
+				"buffer_size": 2287,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "algo/RoutingDay.py",
+			"settings":
+			{
+				"buffer_size": 1782,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "algo/Schedule.py",
+			"settings":
+			{
+				"buffer_size": 1707,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "algo/ScheduleDay.py",
+			"settings":
+			{
+				"buffer_size": 984,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "algo/Solution.py",
+			"settings":
+			{
+				"buffer_size": 1764,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -416,10 +481,74 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 229.0,
-		"last_filter": "bold",
+		"height": 354.0,
+		"last_filter": "sublimelinter de",
 		"selected_items":
 		[
+			[
+				"sublimelinter de",
+				"SublimeLinter: Enable Debug Mode"
+			],
+			[
+				"sublime lint setting",
+				"Preferences: SublimeLinter Settings – User"
+			],
+			[
+				"linter",
+				"SublimeLinter: Toggle Linter"
+			],
+			[
+				"instl",
+				"Package Control: Install Package"
+			],
+			[
+				"remo",
+				"Package Control: Remove Package"
+			],
+			[
+				"int",
+				"Package Control: Install Package"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"matri",
+				"Material Theme: Activate theme"
+			],
+			[
+				"remove pack",
+				"Package Control: Remove Package"
+			],
+			[
+				"intall",
+				"Package Control: Install Package"
+			],
+			[
+				"intll",
+				"Package Control: Install Package"
+			],
+			[
+				"git push",
+				"Git: Push"
+			],
+			[
+				"commit",
+				"Git: Commit"
+			],
+			[
+				"git add",
+				"Git: Add All"
+			],
+			[
+				"vie tab",
+				"View: Toggle Tabs"
+			],
 			[
 				"bold",
 				"Snippet: Boldface text"
@@ -441,16 +570,8 @@
 				"Project: Quick Switch"
 			],
 			[
-				"git push",
-				"Git: Push"
-			],
-			[
 				"quick comm",
 				"Git: Quick Commit (repo)"
-			],
-			[
-				"git add",
-				"Git: Add All"
 			],
 			[
 				"tmep",
@@ -529,10 +650,6 @@
 				"Modific: Toggle highlight changes"
 			],
 			[
-				"install",
-				"Package Control: Install Package"
-			],
-			[
 				"plugind",
 				"Plugin Development: Profile Events"
 			],
@@ -594,10 +711,6 @@
 			],
 			[
 				"remove pa",
-				"Package Control: Remove Package"
-			],
-			[
-				"remo",
 				"Package Control: Remove Package"
 			],
 			[
@@ -769,11 +882,11 @@
 				"LaTeXTools: Check system"
 			]
 		],
-		"width": 390.0
+		"width": 398.0
 	},
 	"console":
 	{
-		"height": 108.0,
+		"height": 636.0,
 		"history":
 		[
 			"cd C:\\Users\\Philip\\Documents\\School\\3BA\\Combinatorische_Optimalisatie\\verolog\\algo",
@@ -803,24 +916,33 @@
 	"expanded_folders":
 	[
 		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog",
-		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/report"
+		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/algo"
 	],
 	"file_history":
 	[
+		"/C/Users/Philip/AppData/Roaming/Sublime Text 3/Packages/User/SublimeLinter.sublime-settings",
+		"/C/Users/Philip/AppData/Roaming/Sublime Text 3/Installed Packages/SublimeLinter-pylint.sublime-package",
+		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/report/report.tex",
+		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/algo/TwoOpt.py",
 		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/report/references.bib",
 		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/report/report.bbl",
-		"/C/Users/Philip/Downloads/0304397577900123.bib",
-		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/algo/TwoOpt.py",
-		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/report.tex",
-		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/algo/Strategy1.py",
-		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/algo/ClarkeWright.py",
+		"/C/Users/Philip/AppData/Roaming/Sublime Text 3/Packages/User/SublimeLinter/Facebook (SL).tmTheme",
 		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/algo/InitSchedule.py",
-		"/C/Users/Philip/Downloads/informs_opre12_568.bib",
-		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/algo/Solution.py",
-		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/algo/Validator.py",
+		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/algo/ClarkeWright.py",
 		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/algo/Solver.py",
-		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/algo/Schedule.py",
+		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/algo/Solution.py",
 		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/algo/Instance.py",
+		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/algo/RoutingDay.py",
+		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/algo/Request.py",
+		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/algo/Tool.py",
+		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/algo/Strategy1.py",
+		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/algo/ScheduleDay.py",
+		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/algo/Schedule.py",
+		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/algo/Routing.py",
+		"/C/Users/Philip/Downloads/0304397577900123.bib",
+		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/report.tex",
+		"/C/Users/Philip/Downloads/informs_opre12_568.bib",
+		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/algo/Validator.py",
 		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/algo/README.txt",
 		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/algo/Trip.py",
 		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/algo/script.py",
@@ -828,7 +950,6 @@
 		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/ourvalidator/Validator.py",
 		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/ourvalidator/Solution.py",
 		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/algo/ORTEC_Test_01.sol.txt",
-		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/algo/Routing.py",
 		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/ourvalidator/ORTEC_Test_01.txt",
 		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/ourvalidator/ORTEC_Test_01.sol.txt",
 		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/ourvalidator/ScheduleDay.py",
@@ -840,9 +961,6 @@
 		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/ourvalidator/Routing.py",
 		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/ourvalidator/RoutingDay.py",
 		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/algo/ORTEC_Test_01.txt",
-		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/algo/Request.py",
-		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/algo/ScheduleDay.py",
-		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/algo/RoutingDay.py",
 		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/tests/ORTEC_Test_01.sol.txt",
 		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/tests/ORTEC_Test_01.txt",
 		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/validator/SolutionCVRPTWUI.py",
@@ -867,7 +985,6 @@
 		"/C/Users/Philip/Documents/School/application/motivation_sfm.tex",
 		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/algo/SAScheduler.py",
 		"/C/Users/Philip/AppData/Local/Temp/Rar$DIa0.610/Solver.py",
-		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/algo/Tool.py",
 		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/algo/__pycache__/Request.py",
 		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/algo/scrap.txt",
 		"/C/Users/Philip/Documents/School/3BA/Combinatorische_Optimalisatie/verolog/algo/SchedulePlan.py",
@@ -939,9 +1056,37 @@
 	},
 	"find_state":
 	{
-		"case_sensitive": false,
+		"case_sensitive": true,
 		"find_history":
 		[
+			"dist(",
+			"depot",
+			"invertRequests",
+			"contains",
+			"\\",
+			"InitSchedule",
+			"Rout",
+			"Order",
+			"Routing",
+			"Trip",
+			"trip",
+			"copy",
+			"deep",
+			"copy",
+			"cope",
+			"toString",
+			"self",
+			"daySchedule",
+			"DaySchedule",
+			"complexity",
+			"order",
+			"decreas",
+			"savings",
+			"False",
+			"EndIf",
+			"[H]",
+			"by",
+			"In pr",
 			"dasg",
 			"2OPT",
 			"pap",
@@ -1049,6 +1194,11 @@
 		"regex": false,
 		"replace_history":
 		[
+			"distance(",
+			"ScheduleMaker",
+			"scheduleDay",
+			"ScheduleDay",
+			"",
 			"2-opt",
 			"scheduleDay",
 			"ScheduleDay",
@@ -1070,53 +1220,24 @@
 	"groups":
 	[
 		{
-			"selected": 6,
+			"selected": 4,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "algo/TwoOpt.py",
+					"file": "algo/Solver.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1350,
+						"buffer_size": 780,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								732,
-								732
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 122.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "algo/InitSchedule.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1161,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1047,
-								1047
+								780,
+								780
 							]
 						],
 						"settings":
@@ -1128,24 +1249,139 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "algo/Routing.py",
+					"buffer": 1,
+					"file": "algo/Tool.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2343,
+						"buffer_size": 188,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1189,
-								1189
+								184,
+								184
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "algo/Trip.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6023,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4844,
+								4844
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 132.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "algo/TwoOpt.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1208,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								164,
+								164
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "algo/ClarkeWright.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3428,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								306,
+								306
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "algo/ScheduleMaker.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1117,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								528,
+								528
 							]
 						],
 						"settings":
@@ -1161,12 +1397,372 @@
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 6,
+					"file": "algo/Instance.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1600,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								289,
+								289
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 11.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5675,
+						"regions":
+						{
+							"match":
+							{
+								"flags": 112,
+								"regions":
+								[
+									[
+										187,
+										192
+									],
+									[
+										286,
+										291
+									],
+									[
+										550,
+										555
+									],
+									[
+										656,
+										661
+									],
+									[
+										758,
+										763
+									],
+									[
+										873,
+										878
+									],
+									[
+										998,
+										1003
+									],
+									[
+										1073,
+										1078
+									],
+									[
+										1199,
+										1204
+									],
+									[
+										1284,
+										1289
+									],
+									[
+										1399,
+										1404
+									],
+									[
+										1633,
+										1638
+									],
+									[
+										1776,
+										1781
+									],
+									[
+										1938,
+										1943
+									],
+									[
+										2046,
+										2051
+									],
+									[
+										2160,
+										2165
+									],
+									[
+										2207,
+										2212
+									],
+									[
+										2295,
+										2300
+									],
+									[
+										2417,
+										2422
+									],
+									[
+										2579,
+										2584
+									],
+									[
+										2721,
+										2726
+									],
+									[
+										2803,
+										2808
+									],
+									[
+										3060,
+										3065
+									],
+									[
+										3159,
+										3164
+									],
+									[
+										3423,
+										3428
+									],
+									[
+										3529,
+										3534
+									],
+									[
+										3631,
+										3636
+									],
+									[
+										3746,
+										3751
+									],
+									[
+										3871,
+										3876
+									],
+									[
+										4003,
+										4008
+									],
+									[
+										4088,
+										4093
+									],
+									[
+										4203,
+										4208
+									],
+									[
+										4437,
+										4442
+									],
+									[
+										4580,
+										4585
+									],
+									[
+										4742,
+										4747
+									],
+									[
+										4850,
+										4855
+									],
+									[
+										4964,
+										4969
+									],
+									[
+										5011,
+										5016
+									],
+									[
+										5099,
+										5104
+									],
+									[
+										5221,
+										5226
+									],
+									[
+										5383,
+										5388
+									],
+									[
+										5525,
+										5530
+									],
+									[
+										5607,
+										5612
+									]
+								],
+								"scope": ""
+							}
+						},
+						"selection":
+						[
+							[
+								5101,
+								5101
+							]
+						],
+						"settings":
+						{
+							"default_dir": "C:\\Users\\Philip\\Documents\\School\\3BA\\Combinatorische_Optimalisatie\\verolog",
+							"detect_indentation": false,
+							"line_numbers": false,
+							"output_tag": 2,
+							"result_base_dir": "",
+							"result_file_regex": "^([^ \t].*):$",
+							"result_line_regex": "^ +([0-9]+):",
+							"scroll_past_end": true,
+							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 2118.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 10,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "algo/Request.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 409,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								38,
+								38
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 11,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "algo/Routing.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2287,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1934,
+								1934
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 195.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 10,
 					"file": "algo/RoutingDay.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1775,
+						"buffer_size": 1782,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								819,
+								819
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 855.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "algo/Schedule.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1707,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1360,
+								1360
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 12,
+					"file": "algo/ScheduleDay.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 984,
 						"regions":
 						{
 						},
@@ -1183,27 +1779,27 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 310.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 13,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
-					"file": "algo/Strategy1.py",
+					"buffer": 13,
+					"file": "algo/Solution.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 798,
+						"buffer_size": 1764,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								797,
-								797
+								23,
+								23
 							]
 						],
 						"settings":
@@ -1215,65 +1811,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "algo/ClarkeWright.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3501,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								864,
-								864
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 810.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "report/report.tex",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 15822,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1902,
-								1902
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/LaTeX/LaTeX.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 377.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
+					"stack_index": 12,
 					"type": "text"
 				}
 			]
@@ -1281,7 +1819,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 26.0
+		"height": 27.0
 	},
 	"input":
 	{
@@ -1348,12 +1886,52 @@
 		"selected_items":
 		[
 			[
+				"clarke",
+				"algo\\ClarkeWright.py"
+			],
+			[
+				"ins",
+				"algo\\Instance.py"
+			],
+			[
 				"report",
 				"report\\report.tex"
 			],
 			[
+				"two",
+				"algo\\TwoOpt.py"
+			],
+			[
+				"trip",
+				"algo\\Trip.py"
+			],
+			[
+				"solver",
+				"algo\\Solver.py"
+			],
+			[
+				"solutio",
+				"algo\\Solution.py"
+			],
+			[
+				"sched",
+				"algo\\Schedule.py"
+			],
+			[
+				"refe",
+				"report\\references.bib"
+			],
+			[
+				"inti",
+				"algo\\InitSchedule.py"
+			],
+			[
 				"strate",
 				"algo\\Strategy1.py"
+			],
+			[
+				"routing",
+				"algo\\RoutingDay.py"
 			],
 			[
 				"ref",
@@ -1364,20 +1942,8 @@
 				"algo\\ClarkeWright.py"
 			],
 			[
-				"two",
-				"algo\\TwoOpt.py"
-			],
-			[
-				"refe",
-				"report\\references.bib"
-			],
-			[
 				"repot",
 				"report\\report.tex"
-			],
-			[
-				"routing",
-				"algo\\RoutingDay.py"
 			],
 			[
 				"rout",
@@ -1390,10 +1956,6 @@
 			[
 				"init",
 				"algo\\InitSchedule.py"
-			],
-			[
-				"clarke",
-				"algo\\ClarkeWright.py"
 			],
 			[
 				"strag",
@@ -1456,20 +2018,12 @@
 				"algo\\Strategy1.py"
 			],
 			[
-				"inti",
-				"algo\\InitSchedule.py"
-			],
-			[
 				"scheul",
 				"algo\\Schedule.py"
 			],
 			[
 				"sch",
 				"algo\\Schedule.py"
-			],
-			[
-				"solver",
-				"algo\\Solver.py"
 			],
 			[
 				"scheudl",
@@ -1496,20 +2050,12 @@
 				"algo\\TwoOpt.py"
 			],
 			[
-				"trip",
-				"algo\\Trip.py"
-			],
-			[
 				"schedule",
 				"algo\\ScheduleDay.py"
 			],
 			[
 				"routin",
 				"algo\\Routing.py"
-			],
-			[
-				"solutio",
-				"algo\\Solution.py"
 			],
 			[
 				"trip.",
@@ -1592,10 +2138,6 @@
 				"algo\\Routing.py"
 			],
 			[
-				"ins",
-				"algo\\Instance.py"
-			],
-			[
 				"pla",
 				"algo\\Plan.py"
 			],
@@ -1660,10 +2202,6 @@
 				"Tool.py"
 			],
 			[
-				"sched",
-				"Schedule.py"
-			],
-			[
 				"requ",
 				"Request.py"
 			],
@@ -1714,8 +2252,8 @@
 	},
 	"show_minimap": false,
 	"show_open_files": true,
-	"show_tabs": false,
-	"side_bar_visible": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
 	"side_bar_width": 191.0,
 	"status_bar_visible": false,
 	"template_settings":
