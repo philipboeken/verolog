@@ -1,14 +1,26 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{3}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
 
-\bibitem[Clarke and Wright(1964)]{cw64}
+\bibitem[Clarke and Wright(1964)]{clarkewright1964}
 G.~Clarke and J.~W. Wright.
 \newblock Scheduling of vehicles from a central depot to a number of delivery
   points.
 \newblock \emph{Operations Research}, 12\penalty0 (4):\penalty0 568--581, 1964.
+
+\bibitem[Dasgupta et~al.(2008)Dasgupta, Papadimitriou, and
+  Vazirani]{Dasgupta2006}
+S.~Dasgupta, C.~H. Papadimitriou, and U.~Vazirani.
+\newblock \emph{Algorithms}.
+\newblock McGraw-Hill, Inc., New York, NY, USA, 1 edition, 2008.
+
+\bibitem[Papadimitriou(1977)]{papadimitriou1977}
+C.~H. Papadimitriou.
+\newblock The euclidean travelling salesman problem is np-complete.
+\newblock \emph{Theoretical Computer Science}, 4\penalty0 (3):\penalty0 237 --
+  244, 1977.
 
 \end{thebibliography}
